@@ -27,8 +27,11 @@ public class MyArrayList<T> implements Iterable<T>{
 	}
 	
 	public void clear(){
+		for (int i = 0; i < theSize; i++){
+			theItems[i] = null;
+		}
 		theSize = 0 ;
-		ensureCapacity(DEFAULT_CAPACITY);
+		
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -45,8 +48,19 @@ public class MyArrayList<T> implements Iterable<T>{
 		return oldValue;
 	}
 	
-	public void add(){
-		
+	public boolean add(T newValue){
+		ensureCapacity(theSize+1);
+		theItems[theSize++] = newValue;
+		return true;
+	}
+	
+	public void add(int idx,T newValue){
+		if(idx <0 || idx > theSize)
+			throw new IndexOutOfBoundsException();
+		ensureCapacity(theSize+1);
+		System.arraycopy(theItems, idx, theItems, idx+1, theSize-idx);
+		theItems[idx] = newValue;
+		theSize ++;
 	}
 	
 	public void remove(){
