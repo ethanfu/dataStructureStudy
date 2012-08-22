@@ -2,6 +2,11 @@ package org.ethanfu.study;
 
 public class MaxSubSum {
 
+	/**
+	 * 基本算最优算法，原理就是循环依次相加，只要相加结果大约max那么赋值给max，否则只有在相加之后结果小于0的时候清空thisSum
+	 * @param a
+	 * @return
+	 */
 	public static int maxSubSum(int[] a){
 		
 		int maxSum = 0,thisSum=0;
