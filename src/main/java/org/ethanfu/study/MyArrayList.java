@@ -1,6 +1,7 @@
 package org.ethanfu.study;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * 
@@ -35,16 +36,16 @@ public class MyArrayList<T> implements Iterable<T>{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T get(int idx){
-		return (T)theItems[idx];
+	public T get(int index){
+		return (T)theItems[index];
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T set(int idx,T newValue){
-		if(idx<0 && idx > theSize)
+	public T set(int index,T newValue){
+		if(index<0 && index > theSize)
 			throw new ArrayIndexOutOfBoundsException();
-		T oldValue = (T)theItems[idx];
-		theItems[idx] = newValue;
+		T oldValue = (T)theItems[index];
+		theItems[index] = newValue;
 		return oldValue;
 	}
 	
@@ -54,17 +55,18 @@ public class MyArrayList<T> implements Iterable<T>{
 		return true;
 	}
 	
-	public void add(int idx,T newValue){
-		if(idx <0 || idx > theSize)
+	public void add(int index,T newValue){
+		if(index <0 || index > theSize)
 			throw new IndexOutOfBoundsException();
 		ensureCapacity(theSize+1);
-		System.arraycopy(theItems, idx, theItems, idx+1, theSize-idx);
-		theItems[idx] = newValue;
+		System.arraycopy(theItems, index, theItems, index+1, theSize-index);
+		theItems[index] = newValue;
 		theSize ++;
 	}
 	
-	public void remove(){
-		
+	public void remove(int index){
+		System.arraycopy(theItems, index+1, theItems, index-1, theSize-index);
+		theItems[theSize] = null;
 	}
 	
 	public int size(){
@@ -82,7 +84,31 @@ public class MyArrayList<T> implements Iterable<T>{
 	@Override
 	public Iterator<T> iterator() {
 		
-		return null;
+		return new MyArrayListIterator<T>();
+	}
+	
+	private class MyArrayListIterator<E> implements Iterator<E>{
+
+		private int current = 0;
+		@Override
+		public boolean hasNext() {
+			return current<theSize;
+		}
+
+		@Override
+		public E next() {
+			// TODO Auto-generated method stub
+			if(!hasNext())
+				throw new NoSuchElementException();
+			return (E) theItems[current++];
+		}
+
+		@Override
+		public void remove() {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 }
