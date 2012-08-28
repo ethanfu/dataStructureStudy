@@ -7,9 +7,33 @@ package org.ethanfu.study;
  * 
  */
 public class Student implements Comparable<Student> {
-	private String name;
+
 	private int age;
+	private String name;
 	private String address;
+
+	public Student(int age, String name, String address) {
+		super();
+		this.age = age;
+		this.name = name;
+		this.address = address;
+	}
+	
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getAddress() {
 		return address;
@@ -19,50 +43,48 @@ public class Student implements Comparable<Student> {
 		this.address = address;
 	}
 
-	Student(String name, int age) {
-		this.name = name;
-		this.age = age;
-	}// 用来初始化实例
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public String toString() {
-		return this.name + "..." + this.age;
-	}
-
-	/* 只要是哈希表结构的集合 都需要覆写这两个方法 */
+	@Override
 	public int hashCode() {
-		return name.hashCode() + age * 23;
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + age;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Student)) {
-			throw new ClassCastException("类型不匹配");
-		}
-		Student s = (Student) obj;
-		return this.name.equals(s.name) && this.age == s.age; // 别什么都写成this.age.equals(s.age)
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Student other = (Student) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (age != other.age)
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
 	}
 
-	// 如果存储对象使用到二叉树结构集合，则需要进行内部排序。
-	public int compareTo(Student s) {
-		int num = new Integer(this.age).compareTo(new Integer(s.age));
-		if (num == 0) {
-			return this.name.compareTo(s.name);
+	@Override
+	public int compareTo(Student o) {
+		
+		int num = new Integer(this.age).compareTo(o.age);
+		if(num == 0){
+			return this.name.compareTo(o.name);
 		}
 		return num;
 	}
+
 }
